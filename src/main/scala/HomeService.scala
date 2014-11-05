@@ -1,16 +1,19 @@
 import spray.http._
 import spray.routing._
-import spray.httpx.SprayJsonSupport._
 import spray.json.DefaultJsonProtocol
+import spray.httpx.SprayJsonSupport._
 
 case class Person(name: String, age: Int)
 
 trait HomeService extends HttpService { 
     
-    import DefaultJsonProtocol._
-    implicit val PersonFormatter = jsonFormat2(Person)
+    object JsonImplicits extends DefaultJsonProtocol {
+        implicit val PersonFormatter = jsonFormat2(Person)    
+    }
     
+    import JsonImplicits._
     val myRoute = {
+        
         path("ping") {
             get {
                 complete {
@@ -28,13 +31,11 @@ trait HomeService extends HttpService {
             }
         } ~
         path("person" / IntNumber) { id =>
-        
             get {
                 complete {
                     Person("person " + id, 1 + id * 4)
                 }
             }
-            
         }
     }    
 }
