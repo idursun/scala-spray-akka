@@ -3,12 +3,11 @@ import akka.io.IO
 import spray.http._
 import spray.can.Http
 
-class HomeServiceActor extends Actor with HomeService with ActorLogging {
+class HomeServiceActor extends Actor with HomeService with InMemoryPersistenceComponent with ActorLogging {
     
     def actorRefFactory = context
     
     def receive = runRoute(myRoute)
-
 }
 
 object Program extends App {

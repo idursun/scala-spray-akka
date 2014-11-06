@@ -5,15 +5,15 @@ import spray.httpx.SprayJsonSupport._
 
 case class Person(name: String, age: Int)
 
-trait HomeService extends HttpService { 
-    
-    object JsonImplicits extends DefaultJsonProtocol {
-        implicit val PersonFormatter = jsonFormat2(Person)    
-    }
-    
+object JsonImplicits extends DefaultJsonProtocol {
+  implicit val PersonFormatter = jsonFormat2(Person)
+}
+
+trait HomeService extends HttpService with PersistenceComponent {
+
     import JsonImplicits._
+
     val myRoute = {
-        
         path("ping") {
             get {
                 complete {
@@ -36,6 +36,16 @@ trait HomeService extends HttpService {
                     Person("person " + id, 1 + id * 4)
                 }
             }
+        } ~
+        path("person") {
+          entity(as[Person]) { person =>
+            post {
+              complete{
+                PersonStore.add(person)
+                HttpResponse(StatusCodes.Created, HttpEntity(PersonStore.count.toString))
+              }
+            }
+          }
         }
     }    
 }

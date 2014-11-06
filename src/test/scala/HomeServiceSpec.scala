@@ -7,7 +7,7 @@ import spray.testkit.ScalatestRouteTest
 import org.scalatest.FreeSpec
 import org.scalatest.Matchers._
 
-class HomeServiceSpec extends FreeSpec with ScalatestRouteTest with HomeService {
+class HomeServiceSpec extends FreeSpec with ScalatestRouteTest with HomeService with InMemoryPersistenceComponent {
     
     import JsonImplicits._
     
@@ -21,6 +21,15 @@ class HomeServiceSpec extends FreeSpec with ScalatestRouteTest with HomeService 
                 val person = responseAs[Person]
                 person.age should be > 0
                 person.name should not be (null)
+            }
+        }
+
+        "should return total count of persons" in {
+            PersonStore.add(Person("first",1))
+
+            Post("/person", Person("second", 1)) ~> sealRoute(myRoute) ~> check {
+                status == Created
+                responseAs[String] === "2"
             }
         }
      
