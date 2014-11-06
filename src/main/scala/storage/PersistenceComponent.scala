@@ -1,11 +1,15 @@
+package storage
+
+import domain.Person
+
+trait Store[T] {
+  def add(item: T)
+  def all: List[T]
+  def count: Int
+}
+
 trait PersistenceComponent {
   val PersonStore: PersonStore
-
-  trait Store[T] {
-    def add(item: T)
-    def all: List[T]
-    def count: Int
-  }
 
   trait PersonStore extends Store[Person]
 }

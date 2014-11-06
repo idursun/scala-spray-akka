@@ -6,6 +6,10 @@ import spray.httpx.SprayJsonSupport._
 import spray.testkit.ScalatestRouteTest
 import org.scalatest.FreeSpec
 import org.scalatest.Matchers._
+import services.HomeService
+import services._
+import storage._
+import domain._
 
 class HomeServiceSpec extends FreeSpec with ScalatestRouteTest with HomeService with InMemoryPersistenceComponent {
     

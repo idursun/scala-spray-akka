@@ -2,6 +2,8 @@ import akka.actor._
 import akka.io.IO
 import spray.http._
 import spray.can.Http
+import storage.InMemoryPersistenceComponent
+import services.HomeService
 
 class HomeServiceActor extends Actor with HomeService with InMemoryPersistenceComponent with ActorLogging {
     

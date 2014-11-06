@@ -1,9 +1,11 @@
+package services
+
 import spray.http._
 import spray.routing._
 import spray.json.DefaultJsonProtocol
 import spray.httpx.SprayJsonSupport._
-
-case class Person(name: String, age: Int)
+import storage.PersistenceComponent
+import domain.Person
 
 object JsonImplicits extends DefaultJsonProtocol {
   implicit val PersonFormatter = jsonFormat2(Person)
