@@ -14,6 +14,7 @@ libraryDependencies ++= {
     val akkaV = "2.4-SNAPSHOT"
     Seq(
         "com.typesafe.akka" %% "akka-actor" % akkaV withSources(),
+        "com.typesafe.akka" %% "akka-persistence-experimental" % akkaV withSources(),
         "io.spray" %% "spray-json" % "1.3.1" withSources(),
         "io.spray" %% "spray-can" % "1.3.2" withSources(),
         "io.spray" %% "spray-routing" % "1.3.2" withSources(),
